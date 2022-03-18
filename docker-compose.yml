@@ -4,6 +4,7 @@ services:
   intero-api:
     container_name: intero-api
     build:
+      context: .
       dockerfile: Dockerfile.intero-api.dev
     volumes:
       - ./:/app/intero-server/
@@ -12,6 +13,7 @@ services:
   intero-web-client:
     container_name: intero-web-client
     build:
+      context: .
       dockerfile: Dockerfile.intero-web-client.dev
     volumes:
       - ./:/app/intero-server/
@@ -20,4 +22,6 @@ services:
   database:
     image: postgres
     restart: "no"
+    env_file:
+      - ".env.local"
     network_mode: host
