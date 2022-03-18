@@ -1,0 +1,16 @@
+FROM node:14 as builder
+
+WORKDIR /app/intero-server
+
+COPY ./ ./
+RUN npm install
+RUN npx nx build intero-web-client
+
+
+FROM nginx:alpine as runner
+
+WORKDIR /app/intero-web-client
+COPY --from=builder /app/intero-server/dist/apps/intero-web-client/ .
+COPY ./config/nginx.intero-web-client.conf /etc/nginx/nginx.conf
+
+EXPOSE 80

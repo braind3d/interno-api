@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  intero-api:
+    container_name: intero-api
+    build:
+      dockerfile: Dockerfile.intero-api.dev
+    volumes:
+      - ./:/app/intero-server/
+    network_mode: host
+
+  intero-web-client:
+    container_name: intero-web-client
+    build:
+      dockerfile: Dockerfile.intero-web-client.dev
+    volumes:
+      - ./:/app/intero-server/
+    network_mode: host
+
+  database:
+    image: postgres
+    restart: "no"
+    network_mode: host

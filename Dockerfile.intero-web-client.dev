@@ -1,0 +1,11 @@
+FROM node:14
+
+WORKDIR /app/intero-server
+
+COPY ./package*.json ./
+RUN npm install --production
+RUN npm install -g nx
+
+EXPOSE 4200
+
+CMD [ "nx", "serve", "intero-web-client" ]
