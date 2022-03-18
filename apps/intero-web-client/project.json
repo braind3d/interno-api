@@ -1,0 +1,73 @@
+{
+  "root": "apps/intero-web-client",
+  "sourceRoot": "apps/intero-web-client/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/apps/intero-web-client",
+        "index": "apps/intero-web-client/src/index.html",
+        "baseHref": "/",
+        "main": "apps/intero-web-client/src/main.tsx",
+        "polyfills": "apps/intero-web-client/src/polyfills.ts",
+        "tsConfig": "apps/intero-web-client/tsconfig.app.json",
+        "assets": [
+          "apps/intero-web-client/src/favicon.ico",
+          "apps/intero-web-client/src/assets"
+        ],
+        "styles": ["apps/intero-web-client/src/styles.scss"],
+        "scripts": [],
+        "webpackConfig": "@nrwl/react/plugins/webpack"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/intero-web-client/src/environments/environment.ts",
+              "with": "apps/intero-web-client/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "intero-web-client:build",
+        "hmr": true
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "intero-web-client:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/intero-web-client/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/intero-web-client"],
+      "options": {
+        "jestConfig": "apps/intero-web-client/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

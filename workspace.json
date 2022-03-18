@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "projects": {
+    "intero-api": "apps/intero-api",
+    "intero-web-client": "apps/intero-web-client",
+    "intero-web-client-e2e": "apps/intero-web-client-e2e"
+  }
+}

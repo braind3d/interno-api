@@ -1,0 +1,28 @@
+{
+  "root": "apps/intero-web-client-e2e",
+  "sourceRoot": "apps/intero-web-client-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/intero-web-client-e2e/cypress.json",
+        "devServerTarget": "intero-web-client:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "intero-web-client:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/intero-web-client-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["intero-web-client"]
+}

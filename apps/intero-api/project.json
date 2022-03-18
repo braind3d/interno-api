@@ -1,0 +1,52 @@
+{
+  "root": "apps/intero-api",
+  "sourceRoot": "apps/intero-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/intero-api",
+        "main": "apps/intero-api/src/main.ts",
+        "tsConfig": "apps/intero-api/tsconfig.app.json",
+        "assets": ["apps/intero-api/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/intero-api/src/environments/environment.ts",
+              "with": "apps/intero-api/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:node",
+      "options": {
+        "buildTarget": "intero-api:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/intero-api/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/intero-api"],
+      "options": {
+        "jestConfig": "apps/intero-api/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
