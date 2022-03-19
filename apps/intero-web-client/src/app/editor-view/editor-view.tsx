@@ -58,6 +58,10 @@ export function EditorView(props: EditorViewProps) {
     link.click();
   }
 
+  const printCanvas = () => {
+    window.print();
+  }
+
   return (
     <div className={styles['container']}>
 
@@ -79,7 +83,7 @@ export function EditorView(props: EditorViewProps) {
             <button className={styles['btn']} onClick={() => handleDialogOpen()}>
               <IoSparklesSharp />
             </button>
-            <button className={styles['btn']}>
+            <button className={styles['btn']} onClick={() => printCanvas()}>
               <AiFillPrinter />
             </button>
             <button className={styles['btn']} onClick={() => handlePlotDialogOpen()}>
