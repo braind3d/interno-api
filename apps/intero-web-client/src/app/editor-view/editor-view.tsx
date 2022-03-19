@@ -8,6 +8,7 @@ import { AiFillPrinter, AiOutlineBoxPlot } from "react-icons/ai";
 import { MdDownload } from "react-icons/md";
 import { useState } from 'react';
 import Canvas from '../canvas/canvas';
+import PlotDialog from '../plot-dialog/plot-dialog';
 
 /* eslint-disable-next-line */
 export interface EditorViewProps {}
@@ -23,6 +24,17 @@ export enum Tool {
 export function EditorView(props: EditorViewProps) {
 
   const [tool, setTool] = useState<Tool>(Tool.PencilTool);
+  const [openPlotDialog, setOpenPlotDialog] = useState(false);
+  const [selectedPlotDialogValue, setSelectedPlotDialogValue] = useState<any>([]);
+
+  const handlePlotDialogOpen = () => {
+    setOpenPlotDialog(true);
+  };
+
+  const handlePlotDialogClose = (value: string) => {
+    setOpenPlotDialog(false);
+    setSelectedPlotDialogValue(value);
+  };
 
   const downloadCanvas = () => {
     const canvas = document.getElementById('drawCanvas') as HTMLCanvasElement;
@@ -57,7 +69,7 @@ export function EditorView(props: EditorViewProps) {
             <button className={styles['btn']}>
               <AiFillPrinter />
             </button>
-            <button className={styles['btn']}>
+            <button className={styles['btn']} onClick={() => handlePlotDialogOpen()}>
               <AiOutlineBoxPlot />
             </button>
             <button className={styles['btn']} onClick={() => downloadCanvas()}>
@@ -66,6 +78,10 @@ export function EditorView(props: EditorViewProps) {
           </div>
         </div>
         <Canvas tool={tool} />
+        <PlotDialog 
+          selectedValue={selectedPlotDialogValue}
+          open={openPlotDialog}
+          onClose={handlePlotDialogClose} />
       </div>
     </div>
   );
