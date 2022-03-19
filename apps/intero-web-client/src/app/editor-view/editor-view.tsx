@@ -6,11 +6,23 @@ import { BsEraser } from "react-icons/bs";
 import { IoSparklesSharp } from "react-icons/io5";
 import { AiFillPrinter, AiOutlineBoxPlot } from "react-icons/ai";
 import { MdDownload } from "react-icons/md";
+import { useState } from 'react';
+import Canvas from '../canvas/canvas';
 
 /* eslint-disable-next-line */
 export interface EditorViewProps {}
 
+export enum Tool {
+  PencilTool,
+  LineTool,
+  EclipseTool,
+  EraserTool,
+  MagicTool,
+}
+
 export function EditorView(props: EditorViewProps) {
+
+  const [tool, setTool] = useState<Tool>(Tool.PencilTool);
 
   const downloadCanvas = () => {
     const canvas = document.getElementById('drawCanvas') as HTMLCanvasElement;
@@ -27,19 +39,19 @@ export function EditorView(props: EditorViewProps) {
       <div className={styles['draw-area']}>
         <div className={styles['tools']}>
           <div>
-            <button className={styles['btn']}>
+            <button className={styles['btn']} onClick={() => setTool(Tool.PencilTool)} >
               <BiPencil />
             </button>
-            <button className={styles['btn']}>
+            <button className={styles['btn']} onClick={() => setTool(Tool.LineTool)} >
               <GiStraightPipe />
             </button>
-            <button className={styles['btn']}>
+            <button className={styles['btn']} onClick={() => setTool(Tool.EclipseTool)}>
               <FiCircle />
             </button>
-            <button className={styles['btn']}>
+            <button className={styles['btn']} onClick={() => setTool(Tool.EraserTool)}>
               <BsEraser />
             </button>
-            <button className={styles['btn']}>
+            <button className={styles['btn']} onClick={() => setTool(Tool.MagicTool)}>
               <IoSparklesSharp />
             </button>
             <button className={styles['btn']}>
@@ -53,9 +65,7 @@ export function EditorView(props: EditorViewProps) {
             </button>
           </div>
         </div>
-
-        <canvas className={styles['canvas']} id="drawCanvas">
-        </canvas>
+        <Canvas tool={tool} />
       </div>
     </div>
   );
