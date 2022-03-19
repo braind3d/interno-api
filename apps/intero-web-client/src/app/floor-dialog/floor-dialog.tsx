@@ -32,7 +32,6 @@ export function FloorDialog(props: FloorDialogProps) {
 
       <DialogTitle>Floor Generation Tool</DialogTitle>
       <DialogContent>
-        {console.log(hasImage)}
           {
             hasImage ? <img width={650} height={400} alt='something'></img> :
             <div className={styles['whiteBox']}></div>
