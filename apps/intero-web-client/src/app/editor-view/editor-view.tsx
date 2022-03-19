@@ -8,6 +8,7 @@ import { AiFillPrinter, AiOutlineBoxPlot } from "react-icons/ai";
 import { MdDownload } from "react-icons/md";
 import { useState } from 'react';
 import Canvas from '../canvas/canvas';
+import PlotDialog from '../plot-dialog/plot-dialog';
 import FloorDialog from '../floor-dialog/floor-dialog';
 
 /* eslint-disable-next-line */
@@ -24,8 +25,19 @@ export enum Tool {
 export function EditorView(props: EditorViewProps) {
 
   const [tool, setTool] = useState<Tool>(Tool.PencilTool);
+  const [openPlotDialog, setOpenPlotDialog] = useState(false);
+  const [selectedPlotDialogValue, setSelectedPlotDialogValue] = useState<any>([]);
   const [open, setOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState<any>([]);
+  const [selectedFloorDialogValue, setSelectedFloorDialogValue] = useState<any>([]);
+
+  const handlePlotDialogOpen = () => {
+    setOpenPlotDialog(true);
+  };
+
+  const handlePlotDialogClose = (value: string) => {
+    setOpenPlotDialog(false);
+    setSelectedPlotDialogValue(value);
+  };
 
   const handleDialogOpen = () => {
     setOpen(true);
@@ -33,7 +45,7 @@ export function EditorView(props: EditorViewProps) {
 
   const handleClose = (value: string) => {
     setOpen(false);
-    setSelectedValue(value);
+    setSelectedFloorDialogValue(value);
   };
 
 
@@ -70,7 +82,7 @@ export function EditorView(props: EditorViewProps) {
             <button className={styles['btn']}>
               <AiFillPrinter />
             </button>
-            <button className={styles['btn']}>
+            <button className={styles['btn']} onClick={() => handlePlotDialogOpen()}>
               <AiOutlineBoxPlot />
             </button>
             <button className={styles['btn']} onClick={() => downloadCanvas()}>
@@ -79,8 +91,12 @@ export function EditorView(props: EditorViewProps) {
           </div>
         </div>
         <Canvas tool={tool} />
+        <PlotDialog 
+          selectedValue={selectedPlotDialogValue}
+          open={openPlotDialog}
+          onClose={handlePlotDialogClose} />
         <FloorDialog 
-          selectedValue={selectedValue}
+          selectedValue={selectedFloorDialogValue}
           open={open}
           onClose={handleClose}
         />
