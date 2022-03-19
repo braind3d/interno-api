@@ -1,12 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import styles from './app.module.scss';
-import NxWelcome from './nx-welcome';
+import EditorView from './editor-view/editor-view';
 
 export function App() {
   return (
     <>
-      <NxWelcome title="intero-web-client" />
-      <div />
+      <EditorView />
+      <div></div>
     </>
   );
 }
