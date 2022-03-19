@@ -9,6 +9,7 @@ import { MdDownload } from "react-icons/md";
 import { useState } from 'react';
 import Canvas from '../canvas/canvas';
 import PlotDialog from '../plot-dialog/plot-dialog';
+import FloorDialog from '../floor-dialog/floor-dialog';
 
 /* eslint-disable-next-line */
 export interface EditorViewProps {}
@@ -26,6 +27,8 @@ export function EditorView(props: EditorViewProps) {
   const [tool, setTool] = useState<Tool>(Tool.PencilTool);
   const [openPlotDialog, setOpenPlotDialog] = useState(false);
   const [selectedPlotDialogValue, setSelectedPlotDialogValue] = useState<any>([]);
+  const [open, setOpen] = useState(false);
+  const [selectedFloorDialogValue, setSelectedFloorDialogValue] = useState<any>([]);
 
   const handlePlotDialogOpen = () => {
     setOpenPlotDialog(true);
@@ -35,6 +38,16 @@ export function EditorView(props: EditorViewProps) {
     setOpenPlotDialog(false);
     setSelectedPlotDialogValue(value);
   };
+
+  const handleDialogOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (value: string) => {
+    setOpen(false);
+    setSelectedFloorDialogValue(value);
+  };
+
 
   const downloadCanvas = () => {
     const canvas = document.getElementById('drawCanvas') as HTMLCanvasElement;
@@ -63,7 +76,7 @@ export function EditorView(props: EditorViewProps) {
             <button className={styles['btn']} onClick={() => setTool(Tool.EraserTool)}>
               <BsEraser />
             </button>
-            <button className={styles['btn']} onClick={() => setTool(Tool.MagicTool)}>
+            <button className={styles['btn']} onClick={() => handleDialogOpen()}>
               <IoSparklesSharp />
             </button>
             <button className={styles['btn']}>
@@ -82,6 +95,11 @@ export function EditorView(props: EditorViewProps) {
           selectedValue={selectedPlotDialogValue}
           open={openPlotDialog}
           onClose={handlePlotDialogClose} />
+        <FloorDialog 
+          selectedValue={selectedFloorDialogValue}
+          open={open}
+          onClose={handleClose}
+        />
       </div>
     </div>
   );
