@@ -15,7 +15,6 @@ export function Canvas(props: CanvasProps) {
   let ctx : any = null;
   const position = { x: 0, y: 0 };
 
-
   useEffect(() => {
     const canvas = canvasRef.current;
     if (canvas === null) {
@@ -40,7 +39,6 @@ export function Canvas(props: CanvasProps) {
 
     const lineTool = new LineTool(canvasElement, ctx);
     const pencilTool = new PencilTool(canvasElement, ctx);
-
 
     switch (props.tool) {
       case Tool.LineTool:

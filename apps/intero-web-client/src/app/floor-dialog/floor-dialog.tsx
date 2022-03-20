@@ -16,6 +16,7 @@ export interface FloorDialogProps {
   open: boolean;
   selectedValue: string;
   onClose: (value: string) => void;
+  // handleAccept: () => void;
 }
 
 export function FloorDialog(props: FloorDialogProps) {
@@ -25,6 +26,10 @@ export function FloorDialog(props: FloorDialogProps) {
   const handleClose = () => {
     onClose(selectedValue);
   };
+  
+  // const handleAccept = () => {
+
+  // }
 
   return (
     <Dialog
@@ -52,7 +57,7 @@ export function FloorDialog(props: FloorDialogProps) {
           <Button variant="contained" endIcon={<AiOutlineSend />}>
             Send
           </Button>
-          <Button variant="contained" color="success" endIcon={<FiMousePointer />}>
+          <Button variant="contained" color="success" endIcon={<FiMousePointer />} >
             Accept
           </Button>
           <Button variant="contained" color="error" endIcon={<GiCancel />} onClick={() => handleClose()}>
