@@ -1,3 +1,12 @@
+@media print {
+    body * {
+      visibility: hidden;
+    }
+    canvas {
+        visibility: visible;
+    }
+  }
+
 .container {
     background-color: #2E394B;
     position:absolute;
