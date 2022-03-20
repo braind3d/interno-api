@@ -1,94 +1,78 @@
+<p align="center">
+  <h1 align="center">Intero Server</h1>
+  <p align="center">
+    Server-side code and web application of the Intero home designer project.
+  </p>
+</p>
+
+<p align="center">
+    <a href="https://github.com/braind3d/intero-server/fork">
+        <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square" alt="Contributions welcome badge" />
+    </a>
+    <a href="LICENSE">
+        <img src="https://img.shields.io/github/license/braind3d/intero-server?style=flat-square" alt="License badge" />
+    </a>
+</p>
+
+<!-- ## Deployment
+The project has been deployed
+- To view the application, simply visit: <https://app.intero.fanton.dev>
+- For API access, send requests to: <https://api.intero.fanton.dev> -->
+
+## API Reference
+
+**Swagger Documentation** containing information about all the endpoints is available [here](https://api.intero.com/v1/swagger/).
 
 
-# InteroServer
+## Setup locally
+1. Clone the project repository.
+```
+git clone https://github.com/braind3d/intero-server
+cd intero-server
+```
 
-This project was generated using [Nx](https://nx.dev).
+2. Install nx and project decencies.
+```
+npm install -g nx
+npm install
+```
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
+3. Configure environment variables.
 
-🔎 **Smart, Fast and Extensible Build System**
+Rename the `.env.template` file to `.env` and fill-in the missing values.
 
-## Adding capabilities to your workspace
+4. Start the applications
 
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
+To bring up the `intero-server` run.
+```
+nx serve intero-server
+```
+To bring up the `intero-web-client` run.
+```
+nx serve intero-web-client
+```
 
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
+## Setup using Docker
+1. Ensure you have Docker and docker-compose installed and running. In case you are having issues, you may refer to the [Docker installation documentation](https://docs.docker.com/get-docker/).
 
-Below are our core plugins:
+2. Clone the project repository.
+```
+git clone https://github.com/braind3d/intero-server
+cd intero-server
+```
 
-- [React](https://reactjs.org)
-  - `npm install --save-dev @nrwl/react`
-- Web (no framework frontends)
-  - `npm install --save-dev @nrwl/web`
-- [Angular](https://angular.io)
-  - `npm install --save-dev @nrwl/angular`
-- [Nest](https://nestjs.com)
-  - `npm install --save-dev @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `npm install --save-dev @nrwl/express`
-- [Node](https://nodejs.org)
-  - `npm install --save-dev @nrwl/node`
+3. Start development server using Docker.
+```
+docker-compose up
+```
 
-There are also many [community plugins](https://nx.dev/community) you could add.
+## Contributions
+1. Fork it (<https://github.com/braind3d/intero-server/fork>)
+2. Create your feature branch (`git checkout -b feature-fooBar`)
+3. Commit your changes (`git commit -a`)
+4. Push to the branch (`git push origin feature-fooBar`)
+5. Create a new Pull Request
+6. Upon review it will be merged.
 
-## Generate an application
-
-Run `nx g @nrwl/react:app my-app` to generate an application.
-
-> You can use any of the plugins above to generate applications as well.
-
-When using Nx, you can create multiple applications and libraries in the same workspace.
-
-## Generate a library
-
-Run `nx g @nrwl/react:lib my-lib` to generate a library.
-
-> You can also use any of the plugins above to generate libraries as well.
-
-Libraries are shareable across libraries and applications. They can be imported from `@intero-server/mylib`.
-
-## Development server
-
-Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `nx g @nrwl/react:component my-component --project=my-app` to generate a new component.
-
-## Build
-
-Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `nx affected:test` to execute the unit tests affected by a change.
-
-## Running end-to-end tests
-
-Run `nx e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
-
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
-
-## Understand your workspace
-
-Run `nx graph` to see a diagram of the dependencies of your projects.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev) to learn more.
-
-
-
-## ☁ Nx Cloud
-
-### Distributed Computation Caching & Distributed Task Execution
-
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
-
-Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
-
-Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
-
-Visit [Nx Cloud](https://nx.app/) to learn more.
+## License
+Distributed under the BSD-3 Cause license. See [LICENSE](LICENSE) for more information.
