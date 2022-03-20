@@ -55,6 +55,7 @@ export class LineTool {
     if (this.canvasElement === null) {
       throw new Error('Canvas is not present');
     }
+    console.log('this', this);
     this.ctx.clearRect(0, 0, 842, 595);
   };
 }

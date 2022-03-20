@@ -1,6 +1,14 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
 .canvas {
     width: 842px;
     height: 595px;
-    float: right;
     background-color: white;
+    float: left;
+    display: inline;
 }
