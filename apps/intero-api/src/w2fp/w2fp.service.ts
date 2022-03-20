@@ -3,17 +3,19 @@ import { W2fpDto } from './w2fp.dto';
 
 import * as tf from '@tensorflow/tfjs-node';
 
-import { createCanvas } from 'canvas';
+import { createCanvas, loadImage } from 'canvas';
 
 class ComponentPixel {
     x: number;
     y: number;
-    isJoint : boolean;
+    isJoint: boolean;
 }
 
 class PredictionComponent {
-    path: Array<ComponentPixel>;
-    label: number;
+    // path: Array<ComponentPixel>;
+    // label: number;
+
+    constructor(private path: Array<ComponentPixel>, private label: number) { }
 }
 
 @Injectable()
@@ -40,27 +42,27 @@ export class W2fpService {
         'bed': {
             width: 163,
             height: 354,
-            src: 'bed.svg',
+            src: __dirname + '/assets/bed.svg',
         },
         'armchair': {
             width: 354,
             height: 258,
-            src: 'armchair.svg',
+            src: __dirname + '/assets/armchair.svg',
         },
         'desk': {
             width: 354,
             height: 354,
-            src: 'desk.svg',
+            src: __dirname + '/assets/desk.svg',
         },
         'sofa': {
             width: 354,
             height: 154,
-            src: 'sofa.svg',
+            src: __dirname + '/assets/sofa.svg',
         },
         'wardrobe': {
             width: 354,
             height: 122,
-            src: 'wardrobe.svg',
+            src: __dirname + '/assets/wardrobe.svg',
         }
     };
 
@@ -93,6 +95,8 @@ export class W2fpService {
                 output[i][j] = ((predictionFlattened[i * output.length + j] - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
             }
         }
+
+        // return output; 
         return [
             [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6],
             [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6],
@@ -160,7 +164,7 @@ export class W2fpService {
         ];
     }
 
-    getNeighbours(label : number, x : number, y : number, path : Array<ComponentPixel>, nnOutput : Array<Int32Array>) {
+    getNeighbours(label: number, x: number, y: number, path: Array<ComponentPixel>, nnOutput: Array<Int32Array>) {
         let neighbours = [];
         let xNeighbours = false;
         let yNeighbours = false;
@@ -188,7 +192,7 @@ export class W2fpService {
 
 
 
-    calculatePredictionComponents(nnOutput : Array<Int32Array>) : Array<PredictionComponent> {
+    calculatePredictionComponents(nnOutput: Array<Int32Array>): Array<PredictionComponent> {
 
         // Prepare BFS
         let used = Array(this.NN_DIMENSION);
@@ -197,26 +201,25 @@ export class W2fpService {
             used[i].fill(false);
         }
 
-        let allComponents : Array<PredictionComponent> = [];
-        let currentComponent : any = {};
+        let allComponents: Array<PredictionComponent> = [];
+        let currentComponent: any = {};
 
-        let path : Array<ComponentPixel> = [];
-        let queue : Array<any> = [];
+        let path: Array<ComponentPixel> = [];
+        let queue: Array<any> = [];
 
         // Execute BFS
         for (let y = 0; y < nnOutput.length; y++) {
             const row = nnOutput[y];
             for (let x = 0; x < row.length; x++) {
                 const label = row[x];
-        
+
                 if (label != this.BACKGROUND_VALUE && !(used[y][x])) {
-        
                     queue.push({ x, y });
                     used[y][x] = true;
                     while (queue.length > 0) {
-        
+
                         let next = queue.shift();
-        
+
                         let neighbours = this.getNeighbours(label, next.x, next.y, path, nnOutput);
                         neighbours.forEach(el => {
                             if (!used[el.y][el.x]) {
@@ -224,16 +227,16 @@ export class W2fpService {
                                 queue.push(el);
                             }
                         })
-        
+
                     }
                     currentComponent.path = path;
                     currentComponent.label = label;
-                    allComponents.push(currentComponent);
+                    console.log(label);
+                    allComponents.push(new PredictionComponent(path, label));
                     path = [];
                 }
             }
         }
-        console.log(allComponents);
 
         return allComponents;
     }
@@ -242,26 +245,26 @@ export class W2fpService {
         // //@ts-ignore
         let canvas = createCanvas(this.NN_DIMENSION * this.NN_OUTPUT_SCALE, this.NN_DIMENSION * this.NN_OUTPUT_SCALE);
         let context = canvas.getContext('2d');
-        
+
         let renderPromises = [];
-        
+
         for (const component of predictionComponents) {
             let path = component.path;
-            if (component.pixel < this.BACKGROUND_VALUE) {
-                console.log('component');
-        
-                if (component.pixel == 0) {
+            if (component.label < this.BACKGROUND_VALUE) {
+                // console.log('component', component.label);
+
+                if (component.label == 0) {
                     let joints = path.filter(el => el.isJoint);
                     context.beginPath();
                     for (let i = 0; i < joints.length; i++) {
                         const jointA = joints[i];
                         for (let j = 1; i != j && j < joints.length; j++) {
                             const jointB = joints[j];
-                            //console.log(jointA, jointB);
-                            let sameX = jointA.x === jointB.x;
-                            let sameY = jointA.x === jointB.x;
-                            if ( (sameX || sameY) && (!sameX || !sameY) ) {
-                                console.log('Draw wall :', jointA, jointB)
+                            let sameX = (jointA.x != jointB.x);
+                            let sameY = (jointA.y != jointB.y);
+
+                            if ((sameX && !sameY) || (!sameX && sameY)) {
+                                // console.log('Draw wall :', jointA, jointB)
                                 context.moveTo(jointA.x * this.NN_OUTPUT_SCALE + this.DRAW_OFFSET, jointA.y * this.NN_OUTPUT_SCALE + this.DRAW_OFFSET);
                                 context.lineTo(jointB.x * this.NN_OUTPUT_SCALE + this.DRAW_OFFSET, jointB.y * this.NN_OUTPUT_SCALE + this.DRAW_OFFSET);
                             }
@@ -269,15 +272,15 @@ export class W2fpService {
                     }
                     context.stroke();
                 } else {
-        
+
                     let componentRendered = new Promise<void>((resolve, reject) => {
-        
-        
+
+
                         let pathMaxX = Math.max.apply(null, path.map(el => el.x));
                         let pathMaxY = Math.max.apply(null, path.map(el => el.y));
                         let pathMinX = Math.min.apply(null, path.map(el => el.x));
                         let pathMinY = Math.min.apply(null, path.map(el => el.y));
-        
+
                         if (pathMaxY - pathMinY > pathMaxX - pathMinX) {
                             // TODO
                             // context.translate(
@@ -286,33 +289,34 @@ export class W2fpService {
                             // context.translate(320, 320);
                             // context.rotate(Math.PI / 2);
                         }
-        
-                        let img = new Image((pathMaxX - pathMinX + 1) * this.NN_OUTPUT_SCALE, (pathMaxY - pathMinY + 1) * this.NN_OUTPUT_SCALE);
-                        img.src = this.IMAGE_MAP[this.VALUE_MAP[component.pixel]].src;
-        
-        
-                        img.addEventListener('load', () => {
+
+                        // let img = new Image((pathMaxX - pathMinX + 1) * this.NN_OUTPUT_SCALE, (pathMaxY - pathMinY + 1) * this.NN_OUTPUT_SCALE);
+                        // img.src = this.IMAGE_MAP[this.VALUE_MAP[component.label]].src;
+
+                        let img = loadImage(this.IMAGE_MAP[this.VALUE_MAP[component.label]].src);
+
+                        img.then((imgFile) => {
                             // context.scale(NN_OUTPUT_SCALE / IMAGE_MAP.sofa.width, NN_OUTPUT_SCALE / IMAGE_MAP.sofa.height);
-        
+                            console.log(imgFile);
                             context.drawImage(
-                                img,
+                                imgFile,
                                 (pathMinX) * this.NN_OUTPUT_SCALE + this.DRAW_OFFSET,
                                 (pathMinY) * this.NN_OUTPUT_SCALE + this.DRAW_OFFSET,
                                 (pathMaxX - pathMinX + 1) * this.NN_OUTPUT_SCALE,
                                 (pathMaxY - pathMinY + 1) * this.NN_OUTPUT_SCALE
                             );
-        
+
                             resolve();
                         });
-        
+
                     });
-        
+
                     renderPromises.push(componentRendered);
                 }
             }
         }
 
-        return Promise.allSettled(renderPromises).then(()=>{
+        return Promise.allSettled(renderPromises).then(() => {
             // return canvas.toBuffer('image/png');
             return canvas.createPNGStream();
         });
