@@ -64,8 +64,6 @@ export function EditorView(props: EditorViewProps) {
 
   return (
     <div className={styles['container']}>
-
-      <div className={styles['draw-area']}>
         <div className={styles['tools']}>
           <div>
             <button className={styles['btn']} onClick={() => setTool(Tool.PencilTool)} >
@@ -104,7 +102,6 @@ export function EditorView(props: EditorViewProps) {
           open={open}
           onClose={handleClose}
         />
-      </div>
     </div>
   );
 }
