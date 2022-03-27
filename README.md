@@ -6,11 +6,11 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/braind3d/intero-server/fork">
+    <a href="https://github.com/fanton-dev/intero-server/fork">
         <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat-square" alt="Contributions welcome badge" />
     </a>
     <a href="LICENSE">
-        <img src="https://img.shields.io/github/license/braind3d/intero-server?style=flat-square" alt="License badge" />
+        <img src="https://img.shields.io/github/license/fanton-dev/intero-server?style=flat-square" alt="License badge" />
     </a>
 </p>
 
@@ -27,7 +27,7 @@ The project has been deployed
 ## Setup locally
 1. Clone the project repository.
 ```
-git clone https://github.com/braind3d/intero-server
+git clone https://github.com/fanton-dev/intero-server
 cd intero-server
 ```
 
@@ -57,7 +57,7 @@ nx serve intero-web-client
 
 2. Clone the project repository.
 ```
-git clone https://github.com/braind3d/intero-server
+git clone https://github.com/fanton-dev/intero-server
 cd intero-server
 ```
 
@@ -67,7 +67,7 @@ docker-compose up
 ```
 
 ## Contributions
-1. Fork it (<https://github.com/braind3d/intero-server/fork>)
+1. Fork it (<https://github.com/fanton-dev/intero-server/fork>)
 2. Create your feature branch (`git checkout -b feature-fooBar`)
 3. Commit your changes (`git commit -a`)
 4. Push to the branch (`git push origin feature-fooBar`)
